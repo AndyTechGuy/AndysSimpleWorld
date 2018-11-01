@@ -1,0 +1,11 @@
+{
+    "id" : "SimpleWorld",
+    "version" : "0.1.0-SNAPSHOT",
+    "author" : "AndyTechGuy",
+    "displayName" : "AndyTechGuy's Simple World",
+    "description" : "A simple world for simple folk.",
+    "dependencies" : [
+        {"id": "Core", "minVersion": "2.0.0"}
+    ],
+    "serverSideOnly" : false
+}
