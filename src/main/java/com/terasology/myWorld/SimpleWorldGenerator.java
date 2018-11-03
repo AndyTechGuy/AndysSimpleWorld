@@ -15,6 +15,8 @@
  */
 package com.terasology.myWorld;
 
+import org.terasology.caves.CaveFacetProvider;
+import org.terasology.caves.CaveRasterizer;
 import org.terasology.registry.In;
 import org.terasology.world.generation.BaseFacetedWorldGenerator;
 import org.terasology.world.generation.WorldBuilder;
@@ -23,6 +25,7 @@ import org.terasology.core.world.generator.facetProviders.SeaLevelProvider;
 import org.terasology.core.world.generator.facetProviders.SurfaceToDensityProvider;
 import org.terasology.engine.SimpleUri;
 import org.terasology.world.generator.plugin.WorldGeneratorPluginLibrary;
+import org.terasology.caves.CaveToDensityProvider;
 
 @RegisterWorldGenerator(id = "simpleWorld", displayName = "AndyTechGuy's Simple World")
 public class SimpleWorldGenerator extends BaseFacetedWorldGenerator {
@@ -38,11 +41,14 @@ public class SimpleWorldGenerator extends BaseFacetedWorldGenerator {
         return new WorldBuilder(worldGeneratorPluginLibrary)
                 .addProvider(new SimpleSurfaceProvider())
                 .addProvider(new SeaLevelProvider(30)) // Sea level of 30
+                .addProvider(new CaveFacetProvider())
                 .addProvider(new SurfaceToDensityProvider())
+                .addProvider(new CaveToDensityProvider())
                 .addProvider(new MountainProvider())
                 .addProvider(new OceanProvider())
                 .addProvider(new TreeProvider())
                 .addRasterizer(new SimpleWorldRasterizer())
+                .addRasterizer(new CaveRasterizer("Core:Air"))
                 .addRasterizer(new TreeRasterizer());
     }
 }

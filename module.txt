@@ -5,7 +5,8 @@
     "displayName" : "AndyTechGuy's Simple World",
     "description" : "A simple world for simple folk.",
     "dependencies" : [
-        {"id": "Core", "minVersion": "2.0.0"}
+        {"id": "Core", "minVersion": "2.0.0"},
+        {"id": "Caves", "minVersion": "1.0.0-SNAPSHOT"}
     ],
     "serverSideOnly" : false
 }

@@ -61,7 +61,7 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
 
             Block block = null;
 
-            if(density >= 5) { // more than 5 blocks above
+            if(density >= 2) { // more than 3 blocks above
                 block = stone;
             } else if(density >= 0){ // surface to 4 blocks above
                 if (TeraMath.floorToInt(surfaceHeight) - position.y > 0 || blockHeight < seaLevelFacet.getSeaLevel()) { // not on surface or below water
