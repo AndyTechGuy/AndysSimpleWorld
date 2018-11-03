@@ -39,6 +39,10 @@ public class SimpleWorldGenerator extends BaseFacetedWorldGenerator {
                 .addProvider(new SimpleSurfaceProvider())
                 .addProvider(new SeaLevelProvider(30)) // Sea level of 30
                 .addProvider(new SurfaceToDensityProvider())
-                .addRasterizer(new SimpleWorldRasterizer());
+                .addProvider(new MountainProvider())
+                .addProvider(new OceanProvider())
+                .addProvider(new TreeProvider())
+                .addRasterizer(new SimpleWorldRasterizer())
+                .addRasterizer(new TreeRasterizer());
     }
 }
