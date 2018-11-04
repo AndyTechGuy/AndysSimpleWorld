@@ -48,7 +48,7 @@ public class SimpleWorldGenerator extends BaseFacetedWorldGenerator {
                 .addProvider(new OceanProvider())
                 .addProvider(new TreeProvider())
                 .addRasterizer(new SimpleWorldRasterizer())
-                .addRasterizer(new CaveRasterizer("Core:Air"))
+                .addRasterizer(new CaveRasterizer("engine:air"))
                 .addRasterizer(new TreeRasterizer());
     }
 }
