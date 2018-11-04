@@ -24,7 +24,7 @@ import org.terasology.world.generation.facets.SeaLevelFacet;
 import org.terasology.world.generation.facets.SurfaceHeightFacet;
 
 @Produces(TreeFacet.class)
-@Requires(@Facet(value = SurfaceHeightFacet.class, border = @FacetBorder(top = 8, sides = 2)))
+@Requires(@Facet(value = SurfaceHeightFacet.class, border = @FacetBorder(bottom = 8, sides = 2)))
 public class TreeProvider implements FacetProvider {
 
     private Noise treeNoise;
@@ -45,7 +45,7 @@ public class TreeProvider implements FacetProvider {
 
     @Override
     public void process(GeneratingRegion region) {
-        Border3D border = region.getBorderForFacet(TreeFacet.class).extendBy(8, 0, 2);
+        Border3D border = region.getBorderForFacet(TreeFacet.class).extendBy(0, 8, 2);
         TreeFacet facet = new TreeFacet(region.getRegion(), border);
         SurfaceHeightFacet surfaceHeightFacet = region.getRegionFacet(SurfaceHeightFacet.class);
         SeaLevelFacet seaLevelFacet = region.getRegionFacet(SeaLevelFacet.class);
