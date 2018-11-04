@@ -50,9 +50,27 @@ public class Tree {
     /**
      * The height of the top of the highest wide leaf level to the highest thin leaf level.
      *
-     * @return The thin leaves
+     * @return The thin leaves height.
      */
     public int getThinLeavesHeight(){
+        return 1;
+    }
+
+    /**
+     * The radius (excluding the center block) of the core part of the tree.
+     *
+     * @return The core radius.
+     */
+    public int getCoreRadius() {
+        return 2;
+    }
+
+    /**
+     * The radius (excluding the center block) of the thin leaves on the top of the tree.
+     *
+     * @return The thin leaves radius.
+     */
+    public int getThinRadius(){
         return 1;
     }
 }
