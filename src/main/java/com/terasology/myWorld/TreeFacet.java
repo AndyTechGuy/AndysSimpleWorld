@@ -17,8 +17,6 @@ package com.terasology.myWorld;
 
 import org.terasology.math.Region3i;
 import org.terasology.world.generation.Border3D;
-import org.terasology.world.generation.FacetProvider;
-import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.facets.base.SparseObjectFacet3D;
 
 /**

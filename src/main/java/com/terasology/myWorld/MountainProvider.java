@@ -45,12 +45,12 @@ public class MountainProvider implements FacetProvider {
 
     @Override
     public void setSeed(long seed) {
-        // seed needs to be made different from other providers, so seed+2 in this case.
-        mountainNoise = new SubSampledNoise(new BrownianNoise(new PerlinNoise(seed +2), 8), new Vector2f(0.001f, 0.001f), 1);
+        // seed needs to be made different from other providers, so seed + 2 in this case.
+        mountainNoise = new SubSampledNoise(new BrownianNoise(new PerlinNoise(seed + 2), 8), new Vector2f(0.001f, 0.001f), 1);
     }
 
     @Override
-    public void process(GeneratingRegion region){
+    public void process(GeneratingRegion region) {
         SurfaceHeightFacet surfaceFacet = region.getRegionFacet(SurfaceHeightFacet.class);
         float mountainHeight = 300;
 

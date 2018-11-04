@@ -21,7 +21,6 @@ import org.terasology.math.geom.Vector2f;
 import org.terasology.utilities.procedural.Noise;
 import org.terasology.utilities.procedural.SimplexNoise;
 import org.terasology.utilities.procedural.SubSampledNoise;
-import org.terasology.utilities.procedural.PerlinNoise;
 import org.terasology.world.generation.Border3D;
 import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
@@ -50,9 +49,9 @@ public class SimpleSurfaceProvider implements FacetProvider {
         SurfaceHeightFacet facet = new SurfaceHeightFacet(region.getRegion(), border);
 
         Rect2i processRegion = facet.getWorldRegion();
-        for(BaseVector2i position: processRegion.contents()) {
+        for (BaseVector2i position : processRegion.contents()) {
             // Minimum of y=10, maximum of y=90.
-            facet.setWorld(position, (surfaceNoise.noise(position.x(), position.y()) * 10)+35);
+            facet.setWorld(position, (surfaceNoise.noise(position.x(), position.y()) * 10) + 35);
         }
 
         region.setRegionFacet(SurfaceHeightFacet.class, facet);

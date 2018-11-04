@@ -52,7 +52,7 @@ public class OceanProvider implements FacetProvider {
         float oceanDepth = 200;
 
         Rect2i processRegion = surfaceFacet.getWorldRegion();
-        for (BaseVector2i position : processRegion.contents()){
+        for (BaseVector2i position : processRegion.contents()) {
             float subtractiveOceanDepth = oceanNoise.noise(position.x(), position.y()) * oceanDepth;
             subtractiveOceanDepth = TeraMath.clamp(subtractiveOceanDepth, 0, oceanDepth); // don't have a negative oceanDepth.
 

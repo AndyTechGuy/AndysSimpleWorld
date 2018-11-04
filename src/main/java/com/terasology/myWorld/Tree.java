@@ -34,7 +34,7 @@ public class Tree {
      *
      * @return The core height.
      */
-    public int getCoreHeight(){
+    public int getCoreHeight() {
         return 2;
     }
 
@@ -43,7 +43,7 @@ public class Tree {
      *
      * @return The wide leaves height.
      */
-    public int getWideLeavesHeight(){
+    public int getWideLeavesHeight() {
         return 1;
     }
 
@@ -52,7 +52,7 @@ public class Tree {
      *
      * @return The thin leaves height.
      */
-    public int getThinLeavesHeight(){
+    public int getThinLeavesHeight() {
         return 1;
     }
 
@@ -70,7 +70,7 @@ public class Tree {
      *
      * @return The thin leaves radius.
      */
-    public int getThinRadius(){
+    public int getThinRadius() {
         return 1;
     }
 }

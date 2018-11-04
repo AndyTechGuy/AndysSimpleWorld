@@ -35,7 +35,7 @@ public class SimpleWorldGenerator extends BaseFacetedWorldGenerator {
     @In
     private WorldGeneratorPluginLibrary worldGeneratorPluginLibrary;
 
-    public SimpleWorldGenerator(SimpleUri uri){
+    public SimpleWorldGenerator(SimpleUri uri) {
         super(uri);
     }
 

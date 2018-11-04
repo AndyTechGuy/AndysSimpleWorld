@@ -44,7 +44,7 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
     private LiquidData waterLiquid;
 
     @Override
-    public void initialize(){
+    public void initialize() {
         dirt = CoreRegistry.get(BlockManager.class).getBlock("Core:Dirt");
         grass = CoreRegistry.get(BlockManager.class).getBlock("Core:Grass");
         stone = CoreRegistry.get(BlockManager.class).getBlock("Core:Stone");
@@ -54,25 +54,25 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
     }
 
     @Override
-    public void generateChunk(CoreChunk chunk, Region chunkRegion){
+    public void generateChunk(CoreChunk chunk, Region chunkRegion) {
         SurfaceHeightFacet surfaceHeightFacet = chunkRegion.getFacet(SurfaceHeightFacet.class);
         DensityFacet densityFacet = chunkRegion.getFacet(DensityFacet.class);
         SeaLevelFacet seaLevelFacet = chunkRegion.getFacet(SeaLevelFacet.class);
 
-        for (Vector3i position : chunkRegion.getRegion()){
+        for (Vector3i position : chunkRegion.getRegion()) {
             float surfaceHeight = surfaceHeightFacet.getWorld(position.x, position.z);
             float density = densityFacet.getWorld(position); // distance from the surface.
-            float blockHeight = position.y+chunk.getChunkWorldOffsetY(); // Accounts for chunks in y-axis.
+            float blockHeight = position.y + chunk.getChunkWorldOffsetY(); // Accounts for chunks in y-axis.
 
             Block block = null;
 
-            if(density >= 2) { // more than 2 blocks above
+            if (density >= 2) { // more than 2 blocks above
                 block = stone;
-            } else if(density >= 0){ // surface to 4 blocks above
+            } else if (density >= 0) { // surface to 4 blocks above
                 if (TeraMath.floorToInt(surfaceHeight) - position.y > 0 || blockHeight < seaLevelFacet.getSeaLevel()) { // not on surface or below water
                     block = dirt;
                 } else if (TeraMath.floorToInt(surfaceHeight) - position.y == 0) { // surface block
-                    if(blockHeight > 80) { // snow on mountain
+                    if (blockHeight > 80) { // snow on mountain
                         block = snow;
                     } else {
                         block = grass;
@@ -85,7 +85,7 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
                 }
             }
 
-            if(block != null) { // null for a block of air
+            if (block != null) { // null for a block of air
                 chunk.setBlock(ChunkMath.calcBlockPos(position), block);
             }
         }

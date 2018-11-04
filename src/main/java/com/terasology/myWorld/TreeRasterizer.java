@@ -48,7 +48,7 @@ public class TreeRasterizer implements WorldRasterizer {
     public void generateChunk(CoreChunk chunk, Region chunkRegion) {
         TreeFacet treeFacet = chunkRegion.getFacet(TreeFacet.class);
 
-        for(Entry<BaseVector3i, Tree> entry : treeFacet.getWorldEntries().entrySet()) {
+        for (Entry<BaseVector3i, Tree> entry : treeFacet.getWorldEntries().entrySet()) {
             int baseHeight = entry.getValue().getBaseHeight(); // the height of the bottom of the tree to the first leaves.
             int coreHeight = entry.getValue().getCoreHeight(); // the height of the tree region with both the tree trunk and outer leaves.
             int wideHeight = entry.getValue().getWideLeavesHeight(); // the height of the tree region with leaves the same width as the core.
@@ -60,17 +60,25 @@ public class TreeRasterizer implements WorldRasterizer {
             Vector3i treeCorner = new Vector3i(treeBase).sub(coreRadius, 0, coreRadius); // the corner of the tree's bounding box.
 
             // the total region of the tree.
-            Region3i treeArea = Region3i.createFromMinAndSize(treeCorner, new Vector3i(2*coreRadius+1, baseHeight+coreHeight+wideHeight+thinHeight, 2*coreRadius+1));
-            // the region containing trunk and inner branch of the tree.
-            Region3i innerLog = Region3i.createFromMinAndSize(treeBase, new Vector3i(1, baseHeight+coreHeight, 1));
+            Region3i treeArea = Region3i.createFromMinAndSize(
+                    treeCorner,
+                    new Vector3i((2 * coreRadius) + 1, baseHeight + coreHeight + wideHeight + thinHeight, (2 * coreRadius) + 1));
+            // the region containing the trunk and inner branch of the tree.
+            Region3i innerLog = Region3i.createFromMinAndSize(
+                    treeBase,
+                    new Vector3i(1, baseHeight + coreHeight, 1));
             // the region containing leaves with the same width as the total region.
-            Region3i coreLeaves = Region3i.createFromMinAndSize(new Vector3i(treeCorner).add(0, baseHeight, 0), new Vector3i(2*coreRadius+1, coreHeight+wideHeight, 2*coreRadius+1));
+            Region3i coreLeaves = Region3i.createFromMinAndSize(
+                    new Vector3i(treeCorner).add(0, baseHeight, 0),
+                    new Vector3i((2 * coreRadius) + 1, coreHeight + wideHeight, (2 * coreRadius) + 1));
             // the region containing leaves with a smaller width than the total region.
-            Region3i thinLeaves = Region3i.createFromMinAndSize(new Vector3i(treeCorner).add(coreRadius-thinRadius, baseHeight+coreHeight+wideHeight, coreRadius-thinRadius), new Vector3i(2*thinRadius+1, thinHeight, 2*thinRadius+1));
+            Region3i thinLeaves = Region3i.createFromMinAndSize(
+                    new Vector3i(treeCorner).add(coreRadius - thinRadius, baseHeight + coreHeight + wideHeight, coreRadius - thinRadius),
+                    new Vector3i((2 * thinRadius) + 1, thinHeight, (2 * thinRadius) + 1));
 
             for (Vector3i newBlockPosition : treeArea) {
-                if(chunkRegion.getRegion().encompasses(newBlockPosition)) {
-                    if(innerLog.encompasses(newBlockPosition)) { // draws tree trunk.
+                if (chunkRegion.getRegion().encompasses(newBlockPosition)) {
+                    if (innerLog.encompasses(newBlockPosition)) { // draws tree trunk.
                         chunk.setBlock(ChunkMath.calcBlockPos(newBlockPosition), trunk);
                     }
                     // leaves in coreLeaves and thinLeaves, excluding innerLog.
