@@ -26,21 +26,22 @@ import org.terasology.world.block.BlockUri;
 import org.terasology.world.chunks.CoreChunk;
 import org.terasology.world.generation.Region;
 import org.terasology.world.generation.WorldRasterizer;
-import org.terasology.world.liquid.LiquidData;
-import org.terasology.world.liquid.LiquidType;
 
 import java.util.Map.Entry;
 
+/**
+ * Draws the blocks for trees onto the surface of the map.
+ */
 public class TreeRasterizer implements WorldRasterizer {
+
+    // tree blocks
     private Block trunk;
     private Block leaf;
-    private Block water;
 
     @Override
     public void initialize() {
         trunk = CoreRegistry.get(BlockManager.class).getBlock(new BlockUri("core:OakTrunk"));
         leaf = CoreRegistry.get(BlockManager.class).getBlock(new BlockUri("core:GreenLeaf"));
-        water = CoreRegistry.get(BlockManager.class).getBlock("core:water");
     }
 
     @Override
@@ -48,24 +49,29 @@ public class TreeRasterizer implements WorldRasterizer {
         TreeFacet treeFacet = chunkRegion.getFacet(TreeFacet.class);
 
         for(Entry<BaseVector3i, Tree> entry : treeFacet.getWorldEntries().entrySet()) {
-            Vector3i treeBase = new Vector3i(entry.getKey()).addY(1);
-            Vector3i treeCorner = new Vector3i(treeBase).sub(2, 0, 2);
+            Vector3i treeBase = new Vector3i(entry.getKey()).addY(1); // tree is placed above surface, so add one to the Y-axis.
+            Vector3i treeCorner = new Vector3i(treeBase).sub(2, 0, 2); // the corner of the tree's bounding box.
 
-            int baseHeight = entry.getValue().getBaseHeight();
-            int coreHeight = entry.getValue().getCoreHeight();
-            int wideHeight = entry.getValue().getWideLeavesHeight();
-            int thinHeight = entry.getValue().getThinLeavesHeight();
+            int baseHeight = entry.getValue().getBaseHeight(); // the height of the bottom of the tree to the first leaves.
+            int coreHeight = entry.getValue().getCoreHeight(); // the height of the tree region with both the tree trunk and outer leaves.
+            int wideHeight = entry.getValue().getWideLeavesHeight(); // the height of the tree region with leaves the same width as the core.
+            int thinHeight = entry.getValue().getThinLeavesHeight(); // the height of the tree region with leaves smaller than the core.
 
+            // the total region of the tree.
             Region3i treeArea = Region3i.createFromMinAndSize(treeCorner, new Vector3i(5, baseHeight+coreHeight+wideHeight+thinHeight, 5));
+            // the region containing trunk and inner branch of the tree.
             Region3i innerLog = Region3i.createFromMinAndSize(treeBase, new Vector3i(1, baseHeight+coreHeight, 1));
+            // the region containing leaves with the same width as the total region.
             Region3i coreLeaves = Region3i.createFromMinAndSize(new Vector3i(treeCorner).add(0, baseHeight, 0), new Vector3i(5, coreHeight+wideHeight, 5));
+            // the region containing leaves with a smaller width than the total region.
             Region3i thinLeaves = Region3i.createFromMinAndSize(new Vector3i(treeCorner).add(1, baseHeight+coreHeight+wideHeight, 1), new Vector3i(3, thinHeight, 3));
 
             for (Vector3i newBlockPosition : treeArea) {
                 if(chunkRegion.getRegion().encompasses(newBlockPosition)) {
-                    if(innerLog.encompasses(newBlockPosition)) {
+                    if(innerLog.encompasses(newBlockPosition)) { // draws tree trunk.
                         chunk.setBlock(ChunkMath.calcBlockPos(newBlockPosition), trunk);
                     }
+                    // leaves in coreLeaves and thinLeaves, excluding innerLog.
                     if ((coreLeaves.encompasses(newBlockPosition) || thinLeaves.encompasses(newBlockPosition)) && !innerLog.encompasses(newBlockPosition)) {
                         chunk.setBlock(ChunkMath.calcBlockPos(newBlockPosition), leaf);
                     }

@@ -27,6 +27,9 @@ import org.terasology.engine.SimpleUri;
 import org.terasology.world.generator.plugin.WorldGeneratorPluginLibrary;
 import org.terasology.caves.CaveToDensityProvider;
 
+/**
+ * The core generator for Simple World.
+ */
 @RegisterWorldGenerator(id = "simpleWorld", displayName = "AndyTechGuy's Simple World")
 public class SimpleWorldGenerator extends BaseFacetedWorldGenerator {
     @In

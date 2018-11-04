@@ -29,6 +29,12 @@ import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.Updates;
 import org.terasology.world.generation.facets.SurfaceHeightFacet;
 
+/**
+ * An addition to {@link SimpleSurfaceProvider}, decreasing the height of the surface at certain regions to create
+ * deep bodies of water.
+ *
+ * Works similiar but opposite to {@link MountainProvider}.
+ */
 @Updates(@Facet(SurfaceHeightFacet.class))
 public class OceanProvider implements FacetProvider {
 
@@ -36,6 +42,7 @@ public class OceanProvider implements FacetProvider {
 
     @Override
     public void setSeed(long seed) {
+        // seed needs to be made different from other providers, so seed-5 in this case.
         oceanNoise = new SubSampledNoise(new BrownianNoise(new PerlinNoise(seed - 5), 8), new Vector2f(0.001f, 0.001f), 1);
     }
 
@@ -47,8 +54,10 @@ public class OceanProvider implements FacetProvider {
         Rect2i processRegion = surfaceFacet.getWorldRegion();
         for (BaseVector2i position : processRegion.contents()){
             float subtractiveOceanDepth = oceanNoise.noise(position.x(), position.y()) * oceanDepth;
-            subtractiveOceanDepth = TeraMath.clamp(subtractiveOceanDepth, 0, oceanDepth);
+            subtractiveOceanDepth = TeraMath.clamp(subtractiveOceanDepth, 0, oceanDepth); // don't have a negative oceanDepth.
 
+            // Unlike mountains, for oceans the height is brought down below sea level. For the purposes of this
+            // generator, oceans are generated as 'reverse-mountains'.
             surfaceFacet.setWorld(position, surfaceFacet.getWorld(position) - subtractiveOceanDepth);
         }
     }

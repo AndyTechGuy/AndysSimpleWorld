@@ -15,15 +15,10 @@
  */
 package com.terasology.myWorld;
 
+/**
+ * The variables surrounding a single tree.
+ */
 public class Tree {
-    /**
-     * The radius of the tree excluding the center block.
-     *
-     * @return The tree radius.
-     */
-    public int getRadius() {
-        return 4;
-    }
 
     /**
      * The height of the trunk of the tree to the core.

@@ -23,24 +23,21 @@ import org.terasology.world.generation.*;
 import org.terasology.world.generation.facets.SeaLevelFacet;
 import org.terasology.world.generation.facets.SurfaceHeightFacet;
 
+/**
+ * Provides the positions of trees to {@link TreeFacet}'s.
+ */
 @Produces(TreeFacet.class)
 @Requires(@Facet(value = SurfaceHeightFacet.class, border = @FacetBorder(bottom = 8, sides = 2)))
 public class TreeProvider implements FacetProvider {
 
+    /**
+     * The noise that will define the placement of trees.
+     */
     private Noise treeNoise;
-
-    public TreeProvider(){
-
-    }
 
     @Override
     public void setSeed(long seed) {
         treeNoise = new WhiteNoise(seed);
-    }
-
-    @Override
-    public void initialize() {
-
     }
 
     @Override
@@ -56,11 +53,11 @@ public class TreeProvider implements FacetProvider {
             for (int wx = worldRegion.minX(); wx <= worldRegion.maxX(); wx++) {
                 int surfaceHeight = TeraMath.floorToInt(surfaceHeightFacet.getWorld(wx, wz));
 
-                if(surfaceHeight >= facet.getWorldRegion().minY() &&
-                        surfaceHeight <= facet.getWorldRegion().maxY() &&
-                            surfaceHeight > seaLevelFacet.getSeaLevel()) {
+                if(surfaceHeight >= facet.getWorldRegion().minY() && // no trees below the facet region.
+                        surfaceHeight <= facet.getWorldRegion().maxY() && // no trees above the facet region.
+                            surfaceHeight > seaLevelFacet.getSeaLevel()) { // no trees in the water.
 
-                    if(treeNoise.noise(wx, wz) > 0.99){
+                    if(treeNoise.noise(wx, wz) > 0.99){ // results in ~1% chance of a tree.
                         facet.setWorld(wx, surfaceHeight, wz, new Tree());
                     }
                 }

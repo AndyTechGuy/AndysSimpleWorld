@@ -29,13 +29,23 @@ import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.Updates;
 import org.terasology.world.generation.facets.SurfaceHeightFacet;
 
+/**
+ * An addition to {@link SimpleSurfaceProvider}, increasing the height of the surface at certain regions to
+ * create tall mountains.
+ *
+ * Works similiar but opposite to {@link OceanProvider}.
+ */
 @Updates(@Facet(SurfaceHeightFacet.class))
 public class MountainProvider implements FacetProvider {
 
+    /**
+     * The noise defining the positions and heights of mountains.
+     */
     private Noise mountainNoise;
 
     @Override
     public void setSeed(long seed) {
+        // seed needs to be made different from other providers, so seed+2 in this case.
         mountainNoise = new SubSampledNoise(new BrownianNoise(new PerlinNoise(seed +2), 8), new Vector2f(0.001f, 0.001f), 1);
     }
 
@@ -47,7 +57,7 @@ public class MountainProvider implements FacetProvider {
         Rect2i processRegion = surfaceFacet.getWorldRegion();
         for (BaseVector2i position : processRegion.contents()) {
             float additiveMountainHeight = mountainNoise.noise(position.x(), position.y()) * mountainHeight;
-            additiveMountainHeight = TeraMath.clamp(additiveMountainHeight, 0, mountainHeight);
+            additiveMountainHeight = TeraMath.clamp(additiveMountainHeight, 0, mountainHeight); // don't negate surface height.
 
             surfaceFacet.setWorld(position, surfaceFacet.getWorld(position) + additiveMountainHeight);
         }

@@ -30,7 +30,12 @@ import org.terasology.world.generation.facets.SeaLevelFacet;
 import org.terasology.world.liquid.LiquidData;
 import org.terasology.world.liquid.LiquidType;
 
+/**
+ * The main rasterizer for Simple World. Places blocks and creates a landscape based on information from
+ * SurfaceHeightFacet, DensityFacet, and SeaLevelFacet.
+ */
 public class SimpleWorldRasterizer implements WorldRasterizer {
+    // surface blocks
     private Block dirt;
     private Block grass;
     private Block stone;
@@ -56,12 +61,12 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
 
         for (Vector3i position : chunkRegion.getRegion()){
             float surfaceHeight = surfaceHeightFacet.getWorld(position.x, position.z);
-            float density = densityFacet.getWorld(position);
+            float density = densityFacet.getWorld(position); // distance from the surface.
             float blockHeight = position.y+chunk.getChunkWorldOffsetY(); // Accounts for chunks in y-axis.
 
             Block block = null;
 
-            if(density >= 2) { // more than 3 blocks above
+            if(density >= 2) { // more than 2 blocks above
                 block = stone;
             } else if(density >= 0){ // surface to 4 blocks above
                 if (TeraMath.floorToInt(surfaceHeight) - position.y > 0 || blockHeight < seaLevelFacet.getSeaLevel()) { // not on surface or below water

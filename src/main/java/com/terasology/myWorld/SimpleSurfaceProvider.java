@@ -28,8 +28,15 @@ import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.Produces;
 import org.terasology.world.generation.facets.SurfaceHeightFacet;
 
+/**
+ * Provides the initial surface heights for the world generator.
+ */
 @Produces(SurfaceHeightFacet.class)
 public class SimpleSurfaceProvider implements FacetProvider {
+
+    /**
+     * The noise defining the height of the world surface.
+     */
     private Noise surfaceNoise;
 
     @Override

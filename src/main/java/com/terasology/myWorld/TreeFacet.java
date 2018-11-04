@@ -21,11 +21,16 @@ import org.terasology.world.generation.FacetProvider;
 import org.terasology.world.generation.GeneratingRegion;
 import org.terasology.world.generation.facets.base.SparseObjectFacet3D;
 
+/**
+ * A facet containing information about tree position within a defined region.
+ */
 public class TreeFacet extends SparseObjectFacet3D<Tree> {
 
     /**
-     * @param targetRegion
-     * @param border
+     * Creates a new TreeFacet in a specified region and border.
+     *
+     * @param targetRegion The region for this facet.
+     * @param border The border that tree blocks can be contained in.
      */
     public TreeFacet(Region3i targetRegion, Border3D border) {
         super(targetRegion, border);
