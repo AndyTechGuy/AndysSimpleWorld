@@ -27,8 +27,6 @@ import org.terasology.world.generation.WorldRasterizer;
 import org.terasology.world.generation.facets.SurfaceHeightFacet;
 import org.terasology.world.generation.facets.DensityFacet;
 import org.terasology.world.generation.facets.SeaLevelFacet;
-import org.terasology.world.liquid.LiquidData;
-import org.terasology.world.liquid.LiquidType;
 
 /**
  * The main rasterizer for Simple World. Places blocks and creates a landscape based on information from
@@ -41,7 +39,6 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
     private Block stone;
     private Block water;
     private Block snow;
-    private LiquidData waterLiquid;
 
     @Override
     public void initialize() {
@@ -50,7 +47,6 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
         stone = CoreRegistry.get(BlockManager.class).getBlock("Core:Stone");
         water = CoreRegistry.get(BlockManager.class).getBlock("Core:water");
         snow = CoreRegistry.get(BlockManager.class).getBlock("Core:Snow");
-        waterLiquid = new LiquidData(LiquidType.WATER, LiquidData.MAX_LIQUID_DEPTH);
     }
 
     @Override
@@ -81,7 +77,6 @@ public class SimpleWorldRasterizer implements WorldRasterizer {
             } else { // above surface
                 if (blockHeight <= seaLevelFacet.getSeaLevel()) { // below sea level
                     block = water;
-                    chunk.setLiquid(ChunkMath.calcBlockPos(position), waterLiquid);
                 }
             }
 
